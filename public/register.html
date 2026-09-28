@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — Web Craft Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-body">
+  <div class="auth-card">
+    <a href="index.html" class="back-home">← Back to home</a>
+    <h1>Create Account ✨</h1>
+    <p class="auth-sub">Join Web Craft Studio in seconds.</p>
+    <form id="register-form">
+      <div class="field-wrap">
+        <input type="text" name="username" placeholder="Username" required minlength="3" maxlength="20">
+        <span class="field-status" id="username-status"></span>
+      </div>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="password" name="password" placeholder="Password (min 6 characters)" required minlength="6">
+      <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+      <p class="gate-error" id="reg-error"></p>
+    </form>
+
+    <div class="divider">OR</div>
+    <div class="google-btn-wrap" id="google-btn"></div>
+
+    <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    const statusEl = document.getElementById('username-status');
+    const form = document.getElementById('register-form');
+    const errEl = document.getElementById('reg-error');
+    let usernameFree = false;
+
+    // ---- LIVE "username taken" CHECK (backend) ----
+    let checkTimer;
+    form.username.addEventListener('input', () => {
+      clearTimeout(checkTimer);
+      const val = form.username.value.trim();
+      if (val.length < 3) { statusEl.textContent = ''; usernameFree = false; return; }
+      statusEl.textContent = 'checking...';
+      statusEl.className = 'field-status checking';
+      checkTimer = setTimeout(async () => {
+        try {
+          const r = await fetch('/api/check-username/' + encodeURIComponent(val));
+          const data = await r.json();
+          if (data.available) { statusEl.textContent = '✓ available'; statusEl.className = 'field-status ok'; usernameFree = true; }
+          else { statusEl.textContent = '✗ taken'; statusEl.className = 'field-status taken'; usernameFree = false; }
+        } catch (e) { statusEl.textContent = ''; }
+      }, 400);
+    });
+
+    // ---- REGISTER ----
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!usernameFree) { errEl.textContent = '❌ Username is taken or too short'; return; }
+      errEl.textContent = '';
+      try {
+        const r = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: form.username.value.trim(),
+            email: form.email.value.trim(),
+            password: form.password.value
+          })
+        });
+        const data = await r.json();
+        if (r.ok) {
+          errEl.style.color = '#16a34a';
+          errEl.textContent = '✅ ' + data.message + ' Redirecting...';
+          setTimeout(() => location.href = 'login.html', 1500);
+        } else {
+          errEl.style.color = '#dc2626';
+          errEl.textContent = '❌ ' + data.error;
+        }
+      } catch (err) {
+        errEl.textContent = '❌ Server error — is the backend running?';
+      }
+    });
+
+    // ---- GOOGLE SIGN-UP ----
+    window.addEventListener('load', () => {
+      if (!window.google) return;
+      google.accounts.id.initialize({
+        client_id: 'YOUR_GOOGLE_CLIENT_ID_HERE', // <-- same as server.js
+        callback: async (response) => {
+          const r = await fetch('/api/google-auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ credential: response.credential })
+          });
+          if (r.ok) { showToast('✅ Signed up with Google!'); setTimeout(() => location.href = 'index.html', 1200); }
+          else showToast('Google sign-in failed', true);
+        }
+      });
+      google.accounts.id.renderButton(document.getElementById('google-btn'), { theme: 'outline', size: 'large', width: 340 });
+    });
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Web Craft Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-body" style="align-items:flex-start">
+
+  <!-- PASSWORD GATE -->
+  <div class="gate-card" id="gate">
+    <div class="lock-icon">🔐</div>
+    <h1>Admin Access Only</h1>
+    <p>Enter the admin password to manage projects.</p>
+    <form id="gate">
+      <input type="password" name="password" placeholder="Enter admin password" required>
+      <button type="submit" class="btn btn-primary btn-block">Unlock Panel</button>
+    </form>
+    <p class="gate-error" id="gate-error"></p>
+    <a href="index.html" class="back-home" style="margin-top:18px">← Back to home</a>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-panel" id="panel" style="display:none">
+    <div class="admin-header">
+      <h1>🛠️ Admin Panel — Add Projects</h1>
+      <div style="display:flex;gap:10px">
+        <a href="inbox.html" class="btn btn-outline btn-sm">📥 Owner Inbox</a>
+        <button class="btn btn-outline btn-sm" onclick="adminLogout()">Lock & Exit</button>
+      </div>
+    </div>
+
+    <form class="admin-form" id="add-project-form">
+      <h2>Add New Project</h2>
+      <p style="color:var(--gray);font-size:.85rem">Projects added here are instantly visible to all visitors.</p>
+      <input type="text" name="title" placeholder="Project Title *" required>
+      <textarea name="description" rows="4" placeholder="Project Description *" required></textarea>
+      <input type="url" name="image_url" placeholder="Image URL (optional — leave empty for gradient card)">
+      <input type="url" name="link" placeholder="Live Project Link (optional)">
+      <button type="submit" class="btn btn-primary">➕ Add Project</button>
+    </form>
+
+    <h2 class="admin-list-title">Current Projects</h2>
+    <div class="admin-list" id="admin-projects-list"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/main.js"></script>
+</body>
+</html>

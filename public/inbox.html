@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Inbox — Web Craft Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-body" style="align-items:flex-start">
+
+  <!-- PASSWORD GATE -->
+  <div class="gate-card" id="gate">
+    <div class="lock-icon">📥</div>
+    <h1>Owner Inbox</h1>
+    <p>Only the owner can view incoming messages.</p>
+    <form id="gate">
+      <input type="password" name="password" placeholder="Enter owner password" required>
+      <button type="submit" class="btn btn-primary btn-block">Open Inbox</button>
+    </form>
+    <p class="gate-error" id="gate-error"></p>
+    <a href="index.html" class="back-home" style="margin-top:18px">← Back to home</a>
+  </div>
+
+  <!-- INBOX PANEL -->
+  <div class="admin-panel" id="panel" style="display:none">
+    <div class="admin-header">
+      <h1>📥 Owner Inbox</h1>
+      <div style="display:flex;gap:10px">
+        <a href="admin.html" class="btn btn-outline btn-sm">🛠️ Admin Panel</a>
+        <button class="btn btn-outline btn-sm" onclick="adminLogout()">Lock & Exit</button>
+      </div>
+    </div>
+    <div class="messages-list" id="messages-list"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/main.js"></script>
+</body>
+</html>

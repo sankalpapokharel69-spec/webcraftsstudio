@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Craft Studio — We Craft Beautiful Websites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div class="preloader">
+    <div class="loader-logo">Web Craft <span>Studio</span></div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Web Craft <span>Studio</span></a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth"></div>
+      <button class="hamburger" aria-label="menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="hero-content">
+      <span class="hero-badge">🚀 Premium Web Design Agency</span>
+      <h1>We Craft <span class="typing-text" id="typing"></span><br>That Stand Out</h1>
+      <p class="hero-sub">Web Craft Studio builds fast, modern and fully responsive websites that turn your visitors into customers.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">View Our Work</a>
+        <a href="#contact" class="btn btn-outline">Get a Quote</a>
+      </div>
+    </div>
+    <span class="scroll-hint">↓</span>
+  </header>
+
+  <!-- STATS -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="stats">
+        <div class="stat reveal"><h3 data-target="150" data-suffix="+">0</h3><p>Projects Delivered</p></div>
+        <div class="stat reveal"><h3 data-target="80" data-suffix="+">0</h3><p>Happy Clients</p></div>
+        <div class="stat reveal"><h3 data-target="5" data-suffix="+">0</h3><p>Years Experience</p></div>
+        <div class="stat reveal"><h3 data-target="100" data-suffix="%">0</h3><p>Satisfaction Rate</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section alt" id="about">
+    <div class="section-inner about-grid">
+      <div class="about-card reveal-left">WCS</div>
+      <div class="about-text reveal-right">
+        <h2 class="section-title">About <span>Web Craft Studio</span></h2>
+        <p>We are a creative web studio obsessed with clean design and smooth performance. Every pixel we craft is built to convert, engage and impress.</p>
+        <ul class="about-list">
+          <li>Modern, animation-rich designs</li>
+          <li>100% responsive on all devices</li>
+          <li>SEO-friendly & lightning fast</li>
+          <li>Dedicated post-launch support</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Let's Work Together</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Our <span>Services</span></h2>
+      <p class="section-sub reveal">Everything you need to launch a powerful online presence.</p>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">🎨</div>
+          <h3>Web Design</h3>
+          <p>Stunning, modern layouts with beautiful animations that make your brand unforgettable.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">💻</div>
+          <h3>Web Development</h3>
+          <p>Full-stack websites with clean code, databases, logins and everything in between.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🛒</div>
+          <h3>E-Commerce</h3>
+          <p>Online stores with product pages, carts and secure checkout — ready to sell.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">📱</div>
+          <h3>Responsive Design</h3>
+          <p>Your site looks perfect on phones, tablets and desktops — always pixel-perfect.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">⚡</div>
+          <h3>SEO Optimization</h3>
+          <p>Get found on Google with optimized structure, speed and meta content.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🛠️</div>
+          <h3>Maintenance</h3>
+          <p>Ongoing updates, backups and support so your website never falls behind.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS (loaded from database — visible to everyone) -->
+  <section class="section alt" id="projects">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Our <span>Projects</span></h2>
+      <p class="section-sub reveal">Real work, live for everyone to see. Fresh projects added by the admin.</p>
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT (sends to owner inbox) -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Get In <span>Touch</span></h2>
+      <p class="section-sub reveal">Send us a message — it lands directly in the owner's private inbox.</p>
+      <form class="contact-form reveal" id="contact-form">
+        <div class="form-row">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+        <input type="text" name="subject" placeholder="Subject">
+        <textarea name="message" rows="5" placeholder="Tell us about your project..." required></textarea>
+        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">Web Craft Studio</div>
+      <p>Crafting the web, one pixel at a time. © 2026</p>
+      <div class="footer-admin">
+        <a href="admin.html">Admin</a> &nbsp;·&nbsp;
+        <a href="inbox.html">Owner Inbox</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/main.js"></script>
+</body>
+</html>

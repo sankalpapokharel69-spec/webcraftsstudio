@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Web Craft Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-body">
+  <div class="auth-card">
+    <a href="index.html" class="back-home">← Back to home</a>
+    <h1>Welcome Back 👋</h1>
+    <p class="auth-sub">Log in to your Web Craft Studio account.</p>
+    <form id="login-form">
+      <input type="text" name="username" placeholder="Username or Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn btn-primary btn-block">Log In</button>
+      <p class="gate-error" id="login-error"></p>
+    </form>
+
+    <div class="divider">OR</div>
+    <div class="google-btn-wrap" id="google-btn"></div>
+
+    <p class="auth-switch">New here? <a href="register.html">Create an account</a></p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    const form = document.getElementById('login-form');
+    const errEl = document.getElementById('login-error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errEl.textContent = '';
+      try {
+        const r = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: form.username.value.trim(),
+            password: form.password.value
+          })
+        });
+        const data = await r.json();
+        if (r.ok) { errEl.style.color = '#16a34a'; errEl.textContent = '✅ Login successful! Redirecting...'; setTimeout(() => location.href = 'index.html', 1000); }
+        else { errEl.textContent = '❌ ' + data.error; }
+      } catch (err) {
+        errEl.textContent = '❌ Server error — is the backend running?';
+      }
+    });
+
+    // ---- GOOGLE SIGN-IN ----
+    window.addEventListener('load', () => {
+      if (!window.google) return;
+      google.accounts.id.initialize({
+        client_id: 'YOUR_GOOGLE_CLIENT_ID_HERE', // <-- same as server.js
+        callback: async (response) => {
+          const r = await fetch('/api/google-auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ credential: response.credential })
+          });
+          if (r.ok) { showToast('✅ Logged in with Google!'); setTimeout(() => location.href = 'index.html', 1200); }
+          else showToast('Google sign-in failed', true);
+        }
+      });
+      google.accounts.id.renderButton(document.getElementById('google-btn'), { theme: 'outline', size: 'large', width: 340 });
+    });
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+  </script>
+</body>
+</html>
